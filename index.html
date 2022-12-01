@@ -61,18 +61,15 @@
       },
       methods: {
         compute() {
-          console.log(this.total0);
           this.items.forEach(item => {
             if(this.total0 !== "" && this.total0 !== 0)
               item.b = this.total * item.a / this.total0 
           })
         },
         click() {
-          console.log('jjj');
           this.items.push({a:'',b:0})
         },
         deleteRow(index) {
-          console.log(index);
           this.items.splice(index,1)
         }
 
