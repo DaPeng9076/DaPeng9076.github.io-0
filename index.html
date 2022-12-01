@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10"></script>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+  <div id='app'>
+    <div style="width: 500px">
+      <el-input v-model="total" @change="compute()" type="number" min="0" placeholder="付款总金额"></el-input>
+      <el-button style="margin: 10px;" @click="click()" type="primary">添加</el-button>
+      <el-table
+        :data="items"
+        style="width: 100%">
+        <el-table-column
+          label="金额"
+          width="180">
+          <template slot-scope="scope">
+            <el-input @change="compute()" type="number" min="0" v-model="scope.row.a" placeholder="xxx"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="b"
+          label="应付">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index)"
+              type="text"
+              size="small">
+              移除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+  <el-input v-model="" placeholder=""></el-input>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        total0: 0,
+        total: '',
+        items: [
+        ],
+      },
+      methods: {
+        compute() {
+          this.total0 = 0
+          this.items.forEach(item => {
+            this.total0 += parseInt(item.a)
+          });
+          console.log(this.total0);
+          this.items.forEach(item => {
+            if(this.total0 !== 0)
+              item.b = this.total * item.a / this.total0 
+          })
+        },
+        click() {
+          console.log('jjj');
+          this.items.push({a:'',b:0})
+        },
+        deleteRow(index) {
+          console.log(index);
+          this.items.splice(index,1)
+        }
+
+      }
+    })
+  </script>
+</body>
+</html>
