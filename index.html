@@ -14,7 +14,8 @@
 <body>
   <div id='app'>
     <div style="width: 500px">
-      <el-input v-model="total" @change="compute()" type="number" min="0" placeholder="付款总金额"></el-input>
+      <el-input v-model="total0" @change="compute()" type="number" min="0" placeholder="标价总金额"></el-input>
+      <el-input style="margin: 10px 0;" v-model="total" @change="compute()" type="number" min="0" placeholder="实付总金额"></el-input>
       <el-button style="margin: 10px;" @click="click()" type="primary">添加</el-button>
       <el-table
         :data="items"
@@ -52,20 +53,16 @@
     new Vue({
       el: "#app",
       data: {
-        total0: 0,
+        total0: '',
         total: '',
         items: [
         ],
       },
       methods: {
         compute() {
-          this.total0 = 0
-          this.items.forEach(item => {
-            this.total0 += parseInt(item.a)
-          });
           console.log(this.total0);
           this.items.forEach(item => {
-            if(this.total0 !== 0)
+            if(this.total0 !== "" && this.total0 !== 0)
               item.b = this.total * item.a / this.total0 
           })
         },
