@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="huaji5.jpg" />
-  <title>外卖计算</title>
+  <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10"></script>
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
@@ -15,8 +14,9 @@
 <body>
   <div id='app'>
     <div style="width: 500px">
-      <el-input v-model="total0" @change="compute()" type="number" min="0" placeholder="标价总金额"></el-input>
-      <el-input style="margin: 10px 0;" v-model="total" @change="compute()" type="number" min="0" placeholder="实付总金额"></el-input>
+      <el-input v-model="total0" @change="compute()" placeholder="标价总金额"></el-input>
+      <el-input style="margin: 10px 0;" v-model="total" @change="compute()" placeholder="实付总金额"></el-input>
+      <div><i style="font-size: 0.5em; color: gray">（空格分隔，自动求和）</i></div>
       <el-button style="margin: 10px;" @click="click()" type="primary">添加</el-button>
       <el-table
         :data="items"
@@ -25,7 +25,7 @@
           label="金额"
           width="180">
           <template slot-scope="scope">
-            <el-input @change="compute()" type="number" min="0" v-model="scope.row.a" placeholder="xxx"></el-input>
+            <el-input @change="compute()" v-model="scope.row.a" placeholder="xxx"></el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -60,10 +60,13 @@
         ],
       },
       methods: {
-        compute() {
+        compute(type) {
+          let a = this.total0.split(" ").reduce((sum,cur) => parseInt(sum) + (parseInt(cur) || 0))
+          let b = this.total.split(" ").reduce((sum,cur) => parseInt(sum) + (parseInt(cur) || 0))
           this.items.forEach(item => {
+            item.c = item.a.split(" ").reduce((sum,cur) => parseInt(sum) + (parseInt(cur) || 0))
             if(this.total0 !== "" && this.total0 !== 0)
-              item.b = this.total * item.a / this.total0 
+              item.b = b * item.c / a 
           })
         },
         click() {
